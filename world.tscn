@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8oqxmm2w2wvv"]
+[gd_scene load_steps=10 format=3 uid="uid://c8oqxmm2w2wvv"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_6tkge"]
 [ext_resource type="PackedScene" uid="uid://c1j7an8woikyd" path="res://environment.tscn" id="1_iktak"]
 [ext_resource type="Texture2D" uid="uid://8ka2ui7sq36p" path="res://addons/kenney_particle_pack/circle_05.png" id="3_ehmxv"]
+[ext_resource type="Script" path="res://FPSCount.gd" id="4_04ai0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u5pdl"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -120,6 +121,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_cmecq")
 max_value = 3.0
 value = 3.0
 show_percentage = false
+
+[node name="FPSCount" type="Label" parent="CanvasLayer/HUD"]
+offset_right = 40.0
+offset_bottom = 23.0
+tooltip_text = "FPS"
+text = "60"
+horizontal_alignment = 1
+script = ExtResource("4_04ai0")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player.tscn")
