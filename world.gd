@@ -14,6 +14,14 @@ func _unhandled_input(event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 
+func _on_offline_button_pressed():
+	main_menu.hide()
+	hud.show()
+	multiplayer.multiplayer_peer = enet_peer
+	multiplayer.peer_connected.connect(add_player)
+	multiplayer.peer_disconnected.connect(remove_player)
+	add_player(multiplayer.get_unique_id())
+
 func _on_host_button_pressed():
 	main_menu.hide()
 	hud.show()
@@ -68,3 +76,6 @@ func upnp_setup():
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
+
+
+
