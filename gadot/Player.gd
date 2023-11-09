@@ -72,8 +72,7 @@ func _unhandled_input(event):
 			head.rotation.x = clamp(head.rotation.x, deg_to_rad(-98), deg_to_rad(89))
 
 	
-	if Input.is_action_just_pressed("shoot") \
-			and anim_player.current_animation != "shoot":
+	if Input.is_action_just_pressed("shoot"):
 		play_shoot_effects.rpc()
 		if raycast_shoot.is_colliding():
 			var hit_player = raycast_shoot.get_collider()
@@ -176,21 +175,14 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, current_speed)
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 
-	if anim_player.current_animation == "shoot":
-		pass
-	elif input_dir != Vector2.ZERO and is_on_floor():
-		anim_player.play("move")
-	else:
-		anim_player.play("idle")
+
+
 
 	move_and_slide()
 
 @rpc("call_local")
 func play_shoot_effects():
-	anim_player.stop()
-	anim_player.play("shoot")
-	muzzle_flash.restart()
-	muzzle_flash.emitting = true
+	pass
 
 @rpc("any_peer")
 func receive_damage():
@@ -201,5 +193,4 @@ func receive_damage():
 	health_changed.emit(health)
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "shoot":
-		anim_player.play("idle")
+	pass

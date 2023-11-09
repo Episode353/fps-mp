@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Weapon_Resource" load_steps=2 format=3 uid="uid://bof3ewi4ljhjc"]
+
+[ext_resource type="Script" path="res://sys/weapon_resource.gd" id="1_vylb0"]
+
+[resource]
+script = ExtResource("1_vylb0")
+weapon_name = "ak47"
+activate_anim = "ak47_activate"
+shoot_anim = "ak47_shoot"
+reload_anim = "ak47_reload"
+deactivate_anim = "ak47_deactivate"
+out_of_ammo_anim = "ak47_ooa"
+current_ammo = 10
+reserve_ammo = 10
+mag_ammo = 23
+max_ammo = 20
+auto_fire = true

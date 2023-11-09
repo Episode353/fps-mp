@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Weapon_Resource" load_steps=2 format=3 uid="uid://bhrts7n8xjy7d"]
+
+[ext_resource type="Script" path="res://sys/weapon_resource.gd" id="1_0s1cx"]
+
+[resource]
+script = ExtResource("1_0s1cx")
+weapon_name = "shotgun"
+activate_anim = "shotgun_activate"
+shoot_anim = "shotgun_shoot"
+reload_anim = "shotgun_reload"
+deactivate_anim = "shotgun_deactivate"
+out_of_ammo_anim = "shotgun_ooa"
+current_ammo = 10
+reserve_ammo = 12
+mag_ammo = 3
+max_ammo = 5
+auto_fire = false
