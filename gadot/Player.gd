@@ -13,7 +13,9 @@ signal health_changed(health_value)
 @onready var standing_collision_shape = $standing_collision_shape
 @onready var raycast_crouching = $raycast_crouching
 @onready var camera_3d = $neck/head/Camera3D
+@onready var viewmodel_camera = $CanvasLayer/SubViewportContainer/SubViewport/viewmodel_camera
 @onready var raycast_wall = $raycast_wall
+@onready var sub_viewport = $CanvasLayer/SubViewportContainer/SubViewport
 
 # Speed Variables
 
@@ -57,6 +59,10 @@ func _enter_tree():
 
 func _ready():
 	if not is_multiplayer_authority(): return
+	
+	var mainenv = camera_3d.get_environment()
+	viewmodel_camera.set_environment(mainenv)
+	sub_viewport.size = get_viewport().size
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera_3d.current = true
@@ -194,3 +200,9 @@ func receive_damage():
 
 func _on_animation_player_animation_finished(anim_name):
 	pass
+	
+	
+func _process(delta):
+	viewmodel_camera.global_transform = camera_3d.global_transform
+	sub_viewport.size = get_viewport().size
+	
