@@ -8,6 +8,8 @@ class_name Weapon_Resource
 @export var reload_anim:String
 @export var deactivate_anim: String
 @export var out_of_ammo_anim: String
+@export var wall_raise_anim: String
+@export var wall_lower_anim: String
 
 @export var current_ammo: int
 @export var reserve_ammo: int

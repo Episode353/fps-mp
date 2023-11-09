@@ -7,7 +7,7 @@ signal update_weapon_stack
 @onready var animation_player = $FPS_RIG/AnimationPlayer
 
 var current_weapon = null
-
+var weapon_raise = false
 var weapon_stack = [] # An array of all weapons the player has
 
 var weapon_indicator = 0
@@ -15,8 +15,8 @@ var weapon_indicator = 0
 var next_weapon: String
 
 var weapon_list = {}
-
 @export var _weapon_resources: Array[Weapon_Resource]
+@onready var raycast_wall = $"../../../../raycast_wall"
 
 @export var start_weapons: Array[String]
 
@@ -32,11 +32,15 @@ func _input(event):
 		weapon_indicator =max(weapon_indicator-1,0)
 		exit(weapon_stack[weapon_indicator])
 		
-	if event.is_action_pressed("shoot"):
+	if event.is_action_pressed("shoot") && weapon_raise == false:
 		shoot()
 		
 	if event.is_action_pressed("reload"):
 		reload()
+		
+	
+
+
 
 func Initalize(_start_weapons: Array):
 	# Create a Dictionary to refer to our weapons
@@ -67,6 +71,7 @@ func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	next_weapon = ""
 	enter()
+
 
 
 func _on_animation_player_animation_finished(anim_name):
@@ -102,3 +107,14 @@ func reload():
 			
 		else:
 			animation_player.play(current_weapon.out_of_ammo_anim)
+
+
+func _physics_process(delta):
+	if raycast_wall.is_colliding() && !animation_player.current_animation == "current_weapon.wall_raise_anim" && weapon_raise == false:
+		animation_player.queue(current_weapon.wall_raise_anim)
+		weapon_raise = true
+	elif !raycast_wall.is_colliding() && weapon_raise == true:
+		animation_player.queue(current_weapon.wall_lower_anim)
+		weapon_raise = false
+		
+		

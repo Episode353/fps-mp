@@ -13,6 +13,7 @@ signal health_changed(health_value)
 @onready var standing_collision_shape = $standing_collision_shape
 @onready var raycast_crouching = $raycast_crouching
 @onready var camera_3d = $neck/head/Camera3D
+@onready var raycast_wall = $raycast_wall
 
 # Speed Variables
 
@@ -135,8 +136,7 @@ func _physics_process(delta):
 		free_looking = false
 		neck.rotation.y = lerp(neck.rotation.y,0.0,delta*lerp_speed)
 		camera_3d.rotation.z = lerp(camera_3d.rotation.z,0.0,delta*lerp_speed)
-		
-	
+
 	
 	# Handle Sliding 
 	

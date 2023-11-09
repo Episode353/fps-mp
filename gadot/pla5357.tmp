@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://xcjrjq5cbn7y"]
+[gd_scene load_steps=26 format=3 uid="uid://xcjrjq5cbn7y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_2v3wm"]
 [ext_resource type="Script" path="res://HUD.gd" id="2_1i8kl"]
@@ -489,7 +489,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(0.225313, 8.57419),
 "update": 0,
-"values": [Vector3(-0.151652, 0, 0), Vector3(1.60745, 0, 0)]
+"values": [Vector3(-0.151652, 0, 0), Vector3(1.37361, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_fx4a2"]
@@ -517,63 +517,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(1.60745, 0, 0), Vector3(-0.151844, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_54huw"]
-resource_name = "ak47_wall_raise"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ak47:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.251071, -0.496804, -0.517897), Vector3(0.251071, -0.496804, -0.517897)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ak47:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 1.48903, 0), Vector3(0.0768227, 1.54277, 1.22057)]
-}
-
-[sub_resource type="Animation" id="Animation_c2i02"]
-resource_name = "ak47_wall_lower"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ak47:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.251071, -0.496804, -0.517897), Vector3(0.251071, -0.496804, -0.517897)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ak47:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.0768227, 1.54277, 1.22057), Vector3(0, 1.48903, 0)]
+"values": [Vector3(1.37361, 0, 0), Vector3(-0.151844, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hucl6"]
@@ -584,8 +528,6 @@ _data = {
 "ak47_ooa": SubResource("Animation_rhqpq"),
 "ak47_reload": SubResource("Animation_rmgrj"),
 "ak47_shoot": SubResource("Animation_em0k2"),
-"ak47_wall_lower": SubResource("Animation_c2i02"),
-"ak47_wall_raise": SubResource("Animation_54huw"),
 "shotgun_activate": SubResource("Animation_wssnf"),
 "shotgun_deactivate": SubResource("Animation_e80dv"),
 "shotgun_ooa": SubResource("Animation_vqfqk"),
@@ -658,7 +600,7 @@ replication_config = SubResource("SceneReplicationConfig_hn37q")
 
 [node name="raycast_wall" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.5)
-target_position = Vector3(1, 0, -1.5)
+target_position = Vector3(0, 0, -1.5)
 
 [node name="raycast_crouching" type="RayCast3D" parent="."]
 target_position = Vector3(0, 2, 0)
@@ -696,6 +638,7 @@ libraries = {
 
 [node name="Node3D" type="Node3D" parent="neck/head"]
 
+[connection signal="child_entered_tree" from="raycast_wall" to="neck/head/Camera3D/Weapons_Manager" method="_on_raycast_wall_child_entered_tree"]
 [connection signal="update_ammo" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_ammo"]
 [connection signal="update_weapon_stack" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]
 [connection signal="weapon_changed" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_weapon_changed"]
