@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c8oqxmm2w2wvv"]
+[gd_scene load_steps=13 format=3 uid="uid://c8oqxmm2w2wvv"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_6tkge"]
 [ext_resource type="PackedScene" uid="uid://c1j7an8woikyd" path="res://environment.tscn" id="1_iktak"]
@@ -19,6 +19,10 @@ sky = SubResource("Sky_w2qqb")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_h510g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6jm87"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ujyws"]
 bg_color = Color(1, 0.117647, 0, 1)
 
@@ -36,6 +40,15 @@ shadow_enabled = true
 environment = SubResource("Environment_6knbf")
 
 [node name="Environment" parent="." instance=ExtResource("1_iktak")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06926, 0)
+mesh = SubResource("CapsuleMesh_h510g")
+
+[node name="enemy" type="StaticBody3D" parent="Environment/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/MeshInstance3D/enemy"]
+shape = SubResource("CapsuleShape3D_6jm87")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -67,6 +67,7 @@ func _ready():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera_3d.current = true
+	
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
 	

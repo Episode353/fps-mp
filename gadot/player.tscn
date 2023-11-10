@@ -1,8 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://xcjrjq5cbn7y"]
+[gd_scene load_steps=29 format=3 uid="uid://xcjrjq5cbn7y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_2v3wm"]
 [ext_resource type="Script" path="res://HUD.gd" id="2_1i8kl"]
 [ext_resource type="Script" path="res://Weapons_Manager.gd" id="2_dh310"]
+[ext_resource type="Script" path="res://main_cam.gd" id="3_nlr0d"]
 [ext_resource type="PackedScene" uid="uid://b6l28hw8movg2" path="res://models/ak47/ak47.glb" id="3_u6le1"]
 [ext_resource type="Resource" uid="uid://bof3ewi4ljhjc" path="res://sys/weapon_resources/ak47.tres" id="3_vtnjn"]
 [ext_resource type="PackedScene" uid="uid://cuyr02pounaf1" path="res://models/shotgun/shotgun.glb" id="4_hs6e8"]
@@ -691,6 +692,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 [node name="Camera3D" type="Camera3D" parent="neck/head"]
 cull_mask = 1048573
 fov = 110.0
+script = ExtResource("3_nlr0d")
 
 [node name="raycast_shoot" type="RayCast3D" parent="neck/head/Camera3D"]
 target_position = Vector3(0, 0, -50)
