@@ -8,7 +8,6 @@ signal health_changed(health_value)
 @onready var neck = $neck
 @onready var anim_player = $AnimationPlayer
 @onready var muzzle_flash = $neck/head/Camera3D/Pistol/MuzzleFlash
-@onready var raycast_shoot = $neck/head/Camera3D/raycast_shoot
 @onready var crouching_collision_shape = $crouching_collision_shape
 @onready var standing_collision_shape = $standing_collision_shape
 @onready var raycast_crouching = $raycast_crouching
@@ -81,15 +80,8 @@ func _unhandled_input(event):
 			head.rotation.x = clamp(head.rotation.x, deg_to_rad(-98), deg_to_rad(89))
 
 	
-	if Input.is_action_just_pressed("shoot"):
-		play_shoot_effects.rpc()
+	
 
-		if raycast_shoot.is_colliding():
-			var hit_position = raycast_shoot.get_collision_point()
-			print("Object hit at position: ", hit_position)
-
-			var hit_player = raycast_shoot.get_collider()
-			hit_player.receive_damage.rpc_id(hit_player.get_multiplayer_authority())
 
 
 func _physics_process(delta):

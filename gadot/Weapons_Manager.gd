@@ -9,7 +9,7 @@ signal update_weapon_stack
 var current_weapon = null
 var weapon_raise = false
 var weapon_stack = [] # An array of all weapons the player has
-
+@onready var raycast_shoot = $"../raycast_shoot"
 var weapon_indicator = 0
 
 var next_weapon: String
@@ -89,6 +89,19 @@ func shoot():
 			animation_player.play(current_weapon.shoot_anim)
 			current_weapon.current_ammo -= 1
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+			
+			if raycast_shoot.is_colliding():
+				var hit_position = raycast_shoot.get_collision_point()
+				print("Object hit at position: ", hit_position)
+				var hit_object = raycast_shoot.get_collider()
+				# Check if the hit object is a player
+				if hit_object.is_in_group("players"):
+					# Assuming the player has a "receive_damage" method
+					#hit_object.receive_damage.rpc_id(hit_object.get_multiplayer_authority())
+					print("Player Hit!")
+				else:
+					print("Hit object is not a player.")
+			
 	else:
 		reload()
 	

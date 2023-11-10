@@ -150,7 +150,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06926, 0)
 mesh = SubResource("CapsuleMesh_h510g")
 skeleton = NodePath("../Environment")
 
-[node name="enemy" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="enemy" type="StaticBody3D" parent="MeshInstance3D" groups=["players"]]
 
 [node name="enemy2" type="CollisionShape3D" parent="MeshInstance3D/enemy"]
 shape = SubResource("CapsuleShape3D_6jm87")
