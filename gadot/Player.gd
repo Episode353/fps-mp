@@ -83,9 +83,14 @@ func _unhandled_input(event):
 	
 	if Input.is_action_just_pressed("shoot"):
 		play_shoot_effects.rpc()
+
 		if raycast_shoot.is_colliding():
+			var hit_position = raycast_shoot.get_collision_point()
+			print("Object hit at position: ", hit_position)
+
 			var hit_player = raycast_shoot.get_collider()
 			hit_player.receive_damage.rpc_id(hit_player.get_multiplayer_authority())
+
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return

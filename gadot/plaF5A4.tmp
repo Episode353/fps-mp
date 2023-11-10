@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://xcjrjq5cbn7y"]
+[gd_scene load_steps=29 format=3 uid="uid://xcjrjq5cbn7y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_2v3wm"]
 [ext_resource type="Script" path="res://HUD.gd" id="2_1i8kl"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://bof3ewi4ljhjc" path="res://sys/weapon_resources/ak47.tres" id="3_vtnjn"]
 [ext_resource type="PackedScene" uid="uid://cuyr02pounaf1" path="res://models/shotgun/shotgun.glb" id="4_hs6e8"]
 [ext_resource type="Resource" uid="uid://bhrts7n8xjy7d" path="res://sys/weapon_resources/shotgun.tres" id="4_u36kv"]
+[ext_resource type="Texture2D" uid="uid://bnovd1chd3bti" path="res://addons/kenney_particle_pack/magic_05.png" id="9_0vlv6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xk8km"]
 
@@ -737,6 +738,9 @@ libraries = {
 }
 
 [node name="Node3D" type="Node3D" parent="neck/head"]
+
+[node name="marker" type="Sprite3D" parent="."]
+texture = ExtResource("9_0vlv6")
 
 [connection signal="update_ammo" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_ammo"]
 [connection signal="update_weapon_stack" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]

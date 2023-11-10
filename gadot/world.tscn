@@ -19,15 +19,15 @@ sky = SubResource("Sky_w2qqb")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_h510g"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6jm87"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ujyws"]
 bg_color = Color(1, 0.117647, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cmecq"]
 bg_color = Color(0.00392157, 1, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_h510g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6jm87"]
 
 [node name="World" type="Node"]
 script = ExtResource("1_6tkge")
@@ -40,15 +40,6 @@ shadow_enabled = true
 environment = SubResource("Environment_6knbf")
 
 [node name="Environment" parent="." instance=ExtResource("1_iktak")]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06926, 0)
-mesh = SubResource("CapsuleMesh_h510g")
-
-[node name="enemy" type="StaticBody3D" parent="Environment/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/MeshInstance3D/enemy"]
-shape = SubResource("CapsuleShape3D_6jm87")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -153,6 +144,16 @@ spawn_path = NodePath("..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16801, 5.17108)
 use_collision = true
 size = Vector3(7.70098, 1, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06926, 0)
+mesh = SubResource("CapsuleMesh_h510g")
+skeleton = NodePath("../Environment")
+
+[node name="enemy" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="enemy2" type="CollisionShape3D" parent="MeshInstance3D/enemy"]
+shape = SubResource("CapsuleShape3D_6jm87")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
