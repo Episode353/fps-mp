@@ -60,6 +60,7 @@ func _enter_tree():
 func _ready():
 	if not is_multiplayer_authority(): return
 	
+	
 	var mainenv = camera_3d.get_environment()
 	viewmodel_camera.set_environment(mainenv)
 	sub_viewport.size = get_viewport().size
@@ -105,7 +106,7 @@ func _physics_process(delta):
 			sliding = true
 			slide_vector = input_dir
 			slide_timer = slide_timer_max
-			free_looking = true
+			
 		
 		walking = false
 		sprinting = false
@@ -203,6 +204,8 @@ func _on_animation_player_animation_finished(anim_name):
 	
 	
 func _process(delta):
+	
 	viewmodel_camera.global_transform = camera_3d.global_transform
+
 	sub_viewport.size = get_viewport().size
 	
