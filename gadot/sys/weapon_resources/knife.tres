@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon_Resource" load_steps=2 format=3 uid="uid://cea7mprhctago"]
+
+[ext_resource type="Script" path="res://sys/weapon_resource.gd" id="1_nsgrx"]
+
+[resource]
+script = ExtResource("1_nsgrx")
+weapon_name = "knife"
+activate_anim = "knife_activate"
+shoot_anim = "knife_shoot"
+reload_anim = "knife_activate"
+deactivate_anim = "knife_deactivate"
+out_of_ammo_anim = "knife_activate"
+wall_raise_anim = "knife_activate"
+wall_lower_anim = "knife_activate"
+current_ammo = -1
+reserve_ammo = -1
+mag_ammo = -1
+max_ammo = -1
+weapon_range = -2
+auto_fire = false
+disable_wall_prox = true
+disable_ammo = true

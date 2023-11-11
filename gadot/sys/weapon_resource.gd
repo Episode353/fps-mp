@@ -11,9 +11,15 @@ class_name Weapon_Resource
 @export var wall_raise_anim: String
 @export var wall_lower_anim: String
 
+
 @export var current_ammo: int
 @export var reserve_ammo: int
 @export var mag_ammo: int
 @export var max_ammo: int
 
+@export var weapon_range: int
+
 @export var auto_fire: bool
+@export var disable_wall_prox: bool
+@export var disable_ammo: bool
+

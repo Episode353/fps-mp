@@ -16,4 +16,7 @@ current_ammo = 10
 reserve_ammo = 12
 mag_ammo = 3
 max_ammo = 5
+weapon_range = -999
 auto_fire = false
+disable_wall_prox = false
+disable_ammo = false

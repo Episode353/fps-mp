@@ -25,18 +25,19 @@ func _ready():
 	
 func _input(event):
 	if event.is_action_pressed("weapon_up"):
-		weapon_indicator = min(weapon_indicator+1, weapon_stack.size()-1)
+		weapon_indicator = (weapon_indicator + 1) % weapon_stack.size()
 		exit(weapon_stack[weapon_indicator])
-		
+
 	if event.is_action_pressed("weapon_down"):
-		weapon_indicator =max(weapon_indicator-1,0)
+		weapon_indicator = (weapon_indicator - 1 + weapon_stack.size()) % weapon_stack.size()
 		exit(weapon_stack[weapon_indicator])
-		
+
 	if event.is_action_pressed("shoot") && weapon_raise == false:
 		shoot()
-		
+
 	if event.is_action_pressed("reload"):
 		reload()
+
 		
 	
 
@@ -69,6 +70,8 @@ func exit(_next_weapon: String):
 	
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
+	var weapon_range = current_weapon.weapon_range
+	raycast_shoot.target_position.z = weapon_range
 	next_weapon = ""
 	enter()
 
@@ -87,8 +90,10 @@ func shoot():
 	if current_weapon.current_ammo != 0:
 		if !animation_player.is_playing(): #Enfore the fire rate set by the animation
 			animation_player.play(current_weapon.shoot_anim)
-			current_weapon.current_ammo -= 1
-			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+			if current_weapon.disable_ammo == false:
+				current_weapon.current_ammo -= 1
+				emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+			
 			
 			if raycast_shoot.is_colliding():
 				var hit_position = raycast_shoot.get_collision_point()
@@ -106,28 +111,30 @@ func shoot():
 		reload()
 	
 func reload():
-	if current_weapon.current_ammo == current_weapon.mag_ammo:
-		return
-	elif !animation_player.is_playing():
-		if current_weapon.reserve_ammo != 0:
-			animation_player.play(current_weapon.reload_anim)
-			var reload_ammount = min(current_weapon.mag_ammo - current_weapon.current_ammo,current_weapon.mag_ammo,current_weapon.reserve_ammo)
-			
-			current_weapon.current_ammo = current_weapon.current_ammo + reload_ammount
-			current_weapon.reserve_ammo = current_weapon.reserve_ammo - reload_ammount
-			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-			
-			
-		else:
-			animation_player.play(current_weapon.out_of_ammo_anim)
+	if current_weapon.disable_ammo == false:
+		if current_weapon.current_ammo == current_weapon.mag_ammo:
+			return
+		elif !animation_player.is_playing():
+			if current_weapon.reserve_ammo != 0:
+				animation_player.play(current_weapon.reload_anim)
+				var reload_ammount = min(current_weapon.mag_ammo - current_weapon.current_ammo,current_weapon.mag_ammo,current_weapon.reserve_ammo)
+				
+				current_weapon.current_ammo = current_weapon.current_ammo + reload_ammount
+				current_weapon.reserve_ammo = current_weapon.reserve_ammo - reload_ammount
+				emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+				
+				
+			else:
+				animation_player.play(current_weapon.out_of_ammo_anim)
 
 
 func _physics_process(delta):
-	if raycast_wall.is_colliding() && !animation_player.current_animation == "current_weapon.wall_raise_anim" && weapon_raise == false:
-		animation_player.queue(current_weapon.wall_raise_anim)
-		weapon_raise = true
-	elif !raycast_wall.is_colliding() && weapon_raise == true:
-		animation_player.queue(current_weapon.wall_lower_anim)
-		weapon_raise = false
+	if current_weapon.disable_wall_prox == false:
+		if raycast_wall.is_colliding() && !animation_player.current_animation == "current_weapon.wall_raise_anim" && weapon_raise == false:
+			animation_player.queue(current_weapon.wall_raise_anim)
+			weapon_raise = true
+		elif !raycast_wall.is_colliding() && weapon_raise == true:
+			animation_player.queue(current_weapon.wall_lower_anim)
+			weapon_raise = false
 		
 		
