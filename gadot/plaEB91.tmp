@@ -756,8 +756,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody3D" groups=["players"]]
-collision_layer = 16
-collision_mask = 17
+collision_layer = 2
 script = ExtResource("1_2v3wm")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -804,7 +803,27 @@ text = "Weapon Stack:"
 [node name="WeaponStack" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["players"]]
+[node name="WeaponStack2" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+positional_shadow_atlas_size = 8
+positional_shadow_atlas_16_bits = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="viewmodel_camera" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79272, 0.051304)
+cull_mask = 0
+fov = 80.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_xk8km")
 
@@ -839,7 +858,6 @@ fov = 110.0
 [node name="raycast_shoot" type="RayCast3D" parent="neck/head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0238895, -0.00101995)
 target_position = Vector3(0, 0, -50)
-collision_mask = 16
 collide_with_areas = true
 
 [node name="Weapons_Manager" type="Node3D" parent="neck/head/Camera3D"]
@@ -853,13 +871,35 @@ start_weapons = Array[String](["shotgun", "ak47", "knife"])
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.72134, 0)
 visible = false
 
+[node name="cover" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/shotgun" index="0" groups=["weapon_viewmodel"]]
+layers = 0
+
+[node name="grip" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/shotgun" index="1" groups=["weapon_viewmodel"]]
+layers = 0
+
+[node name="box01" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/shotgun" index="2" groups=["weapon_viewmodel"]]
+layers = 0
+
+[node name="gun" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/shotgun" index="3" groups=["weapon_viewmodel"]]
+layers = 0
+
+[node name="sight" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/shotgun" index="4" groups=["weapon_viewmodel"]]
+layers = 0
+
 [node name="ak47" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG" instance=ExtResource("3_u6le1")]
 transform = Transform3D(-7.23998e-06, 0, 2, 0, 2, 0, -2, 0, -7.23998e-06, 0, -1.72134, 0)
 visible = false
 
+[node name="AK47" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/ak47" index="0" groups=["weapon_viewmodel"]]
+layers = 0
+
 [node name="knife" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG" instance=ExtResource("8_bk2cc")]
 transform = Transform3D(0.0987963, -0.015446, -0.000841274, -0.000539298, 0.00199591, -0.0999785, 0.0154595, 0.0987797, 0.00188858, 0.183503, -0.105145, -0.144348)
 visible = false
+
+[node name="Knife2" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/knife" index="0" groups=["weapon_viewmodel"]]
+transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0, 0, 0)
+layers = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG"]
 libraries = {
@@ -872,3 +912,7 @@ libraries = {
 [connection signal="update_weapon_stack" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]
 [connection signal="weapon_changed" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_weapon_changed"]
 [connection signal="animation_finished" from="neck/head/Camera3D/Weapons_Manager/FPS_RIG/AnimationPlayer" to="neck/head/Camera3D/Weapons_Manager" method="_on_animation_player_animation_finished"]
+
+[editable path="neck/head/Camera3D/Weapons_Manager/FPS_RIG/shotgun"]
+[editable path="neck/head/Camera3D/Weapons_Manager/FPS_RIG/ak47"]
+[editable path="neck/head/Camera3D/Weapons_Manager/FPS_RIG/knife"]

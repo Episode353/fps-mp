@@ -24,6 +24,7 @@ func _ready():
 	Initalize(start_weapons) # Enter the state machine
 	
 func _input(event):
+	if not is_multiplayer_authority(): return
 	if event.is_action_pressed("weapon_up"):
 		weapon_indicator = (weapon_indicator + 1) % weapon_stack.size()
 		exit(weapon_stack[weapon_indicator])
@@ -44,6 +45,7 @@ func _input(event):
 
 
 func Initalize(_start_weapons: Array):
+	if not is_multiplayer_authority(): return
 	# Create a Dictionary to refer to our weapons
 	for weapon in _weapon_resources:
 		weapon_list[weapon.weapon_name] = weapon
@@ -72,6 +74,7 @@ func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	var weapon_range = current_weapon.weapon_range
 	raycast_shoot.target_position.z = weapon_range
+	print("Raycast_shoot Range: ", raycast_shoot.target_position.z)
 	next_weapon = ""
 	enter()
 
@@ -99,13 +102,15 @@ func shoot():
 				var hit_position = raycast_shoot.get_collision_point()
 				print("Object hit at position: ", hit_position)
 				var hit_object = raycast_shoot.get_collider()
+				
 				# Check if the hit object is a player
 				if hit_object.is_in_group("players"):
-					# Assuming the player has a "receive_damage" method
-					#hit_object.receive_damage.rpc_id(hit_object.get_multiplayer_authority())
+					# Assuming the player has a "receive_damage" method marked as an RPC
+					hit_object.rpc("receive_damage", current_weapon.damage)
 					print("Player Hit!")
 				else:
 					print("Hit object is not a player.")
+
 			
 	else:
 		reload()
@@ -129,6 +134,7 @@ func reload():
 
 
 func _physics_process(delta):
+	if not is_multiplayer_authority(): return
 	if current_weapon.disable_wall_prox == false:
 		if raycast_wall.is_colliding() && !animation_player.current_animation == "current_weapon.wall_raise_anim" && weapon_raise == false:
 			animation_player.queue(current_weapon.wall_raise_anim)
@@ -136,5 +142,3 @@ func _physics_process(delta):
 		elif !raycast_wall.is_colliding() && weapon_raise == true:
 			animation_player.queue(current_weapon.wall_lower_anim)
 			weapon_raise = false
-		
-		

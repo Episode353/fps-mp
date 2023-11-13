@@ -756,8 +756,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody3D" groups=["players"]]
-collision_layer = 16
-collision_mask = 17
+collision_layer = 2
 script = ExtResource("1_2v3wm")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -804,7 +803,10 @@ text = "Weapon Stack:"
 [node name="WeaponStack" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["players"]]
+[node name="WeaponStack2" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_xk8km")
 
@@ -839,7 +841,6 @@ fov = 110.0
 [node name="raycast_shoot" type="RayCast3D" parent="neck/head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0238895, -0.00101995)
 target_position = Vector3(0, 0, -50)
-collision_mask = 16
 collide_with_areas = true
 
 [node name="Weapons_Manager" type="Node3D" parent="neck/head/Camera3D"]

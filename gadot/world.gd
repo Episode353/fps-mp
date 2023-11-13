@@ -53,6 +53,12 @@ func _on_join_button_pressed():
 func add_player(peer_id):
 	var player = Player.instantiate()
 	player.name = str(peer_id)
+	
+	# Randomize spawn to prevent spawn collision
+	player.position.x = randi_range(-10, 10)
+	player.position.z = randi_range(-10, 10)
+	player.position.y = 10
+	
 	add_child(player)
 	if player.is_multiplayer_authority():
 		player.health_changed.connect(update_health_bar)

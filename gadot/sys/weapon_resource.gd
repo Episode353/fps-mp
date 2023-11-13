@@ -16,6 +16,8 @@ class_name Weapon_Resource
 @export var reserve_ammo: int
 @export var mag_ammo: int
 @export var max_ammo: int
+@export var damage: int
+
 
 @export var weapon_range: int
 

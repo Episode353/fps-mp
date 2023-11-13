@@ -12,14 +12,18 @@ signal health_changed(health_value)
 @onready var standing_collision_shape = $standing_collision_shape
 @onready var raycast_crouching = $raycast_crouching
 @onready var camera_3d = $neck/head/Camera3D
-@onready var viewmodel_camera = $CanvasLayer/SubViewportContainer/SubViewport/viewmodel_camera
 @onready var raycast_wall = $raycast_wall
 @onready var sub_viewport = $CanvasLayer/SubViewportContainer/SubViewport
 
+
+
+
+
+
+var health = 20 # Inital health
+var max_health = 20 # Health set to max health on respawn
+
 # Speed Variables
-
-var health = 3
-
 const walking_speed = 5.0
 const sprinting_speed = 10.0
 const crouching_speed = 3.0
@@ -50,23 +54,25 @@ const mouse_sens = 0.1
 var direction = Vector3.ZERO
 
 
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20.0
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
+	
+	
+	
 
 func _ready():
 	if not is_multiplayer_authority(): return
 	
-	
 	var mainenv = camera_3d.get_environment()
-	viewmodel_camera.set_environment(mainenv)
-	sub_viewport.size = get_viewport().size
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera_3d.current = true
 	
+
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
 	
@@ -89,7 +95,7 @@ func _physics_process(delta):
 	
 	# Getting Movment Input
 	var input_dir = Input.get_vector("left", "right", "up", "down")
-	
+
 	if Input.is_action_pressed("crouch") || sliding:
 		
 		current_speed = crouching_speed
@@ -185,25 +191,21 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-@rpc("call_local")
-func play_shoot_effects():
-	pass
 
 @rpc("any_peer")
-func receive_damage():
-	health -= 1
+func receive_damage(dmg):
+	health -= dmg
+	print(health)
 	if health <= 0:
-		health = 3
-		position = Vector3.ZERO
+		health = max_health
+		
+		# Randomize spawn to prevent spawn collision
+		position.x = randi_range(-10, 10)
+		position.z = randi_range(-10, 10)
+		position.y = 10
 	health_changed.emit(health)
+	print("Received Damage")
 
-func _on_animation_player_animation_finished(anim_name):
-	pass
-	
-	
-func _process(delta):
-	
-	viewmodel_camera.global_transform = camera_3d.global_transform
 
-	sub_viewport.size = get_viewport().size
-	
+
+
