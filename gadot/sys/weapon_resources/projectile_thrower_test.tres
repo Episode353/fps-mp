@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Weapon_Resource" load_steps=2 format=3 uid="uid://bqgyx232itglx"]
+
+[ext_resource type="Script" path="res://sys/weapon_resource.gd" id="1_topl4"]
+
+[resource]
+script = ExtResource("1_topl4")
+weapon_name = "projectile_thrower_test"
+activate_anim = "knife_activate"
+shoot_anim = "knife_shoot"
+reload_anim = "knife_activate"
+deactivate_anim = "knife_deactivate"
+out_of_ammo_anim = "knife_activate"
+wall_raise_anim = ""
+wall_lower_anim = ""
+current_ammo = 999
+reserve_ammo = 999
+mag_ammo = 999
+max_ammo = 999
+damage = 10
+weapon_range = 9
+auto_fire = false
+disable_wall_prox = true
+disable_ammo = false
+use_area_damage_collision = true
+area_damage_radius = 20

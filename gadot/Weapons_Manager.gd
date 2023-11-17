@@ -17,6 +17,7 @@ var next_weapon: String
 var weapon_list = {}
 @export var _weapon_resources: Array[Weapon_Resource]
 @onready var raycast_wall = $"../../../../raycast_wall"
+@onready var area_collision = $"../area_collision"
 
 @export var start_weapons: Array[String]
 
@@ -75,6 +76,7 @@ func change_weapon(weapon_name: String):
 	var weapon_range = current_weapon.weapon_range
 	raycast_shoot.target_position.z = weapon_range
 	print("Raycast_shoot Range: ", raycast_shoot.target_position.z)
+	print(current_weapon.weapon_name)
 	next_weapon = ""
 	enter()
 
@@ -111,6 +113,12 @@ func shoot():
 				else:
 					print("Hit object is not a player.")
 
+					
+					
+			if current_weapon.use_area_damage_collision == true:
+				var area_collision_enimies = area_collision.get_overlapping_bodies()
+				for e in area_collision_enimies:
+					print("Area_collision collides with: ", e)
 			
 	else:
 		reload()
