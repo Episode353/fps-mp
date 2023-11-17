@@ -53,7 +53,12 @@ var slide_speed = 15.0
 const mouse_sens = 0.1
 var direction = Vector3.ZERO
 
-
+# Bhop Variables
+var bhop_count = 0
+const bhop_reset_time = 1.0  # Time in seconds before resetting bhop_count after being on the floor
+var time_on_floor = 0.0
+const bhop_reset_delay = 1.0  # Time in seconds before resetting bhop_count when on the floor
+const bhop_increase_speed_multiplier = 4 # How much speed is added per bhop
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20.0
@@ -161,13 +166,24 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	# Handle Jump.
+  # Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		sliding = false
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
+		# Increase bhop count on each jump
+		bhop_count += bhop_increase_speed_multiplier
+
+	# Reset bhop count if on the floor for more than bhop_reset_time
+	if is_on_floor():
+		time_on_floor += delta
+
+		if time_on_floor > bhop_reset_delay:
+			bhop_count = 0
+			time_on_floor = 0.0
+	elif bhop_count > 0:
+		# Modify the horizontal speed based on bhop_count
+		current_speed = lerp(current_speed, walking_speed + bhop_count, delta * lerp_speed)
 	
 	direction = lerp(direction,(transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(),delta*lerp_speed)
 	
