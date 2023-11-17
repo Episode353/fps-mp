@@ -10,10 +10,10 @@ func _on_weapons_manager_update_ammo(Ammo):
 
 
 
-func _on_weapons_manager_update_weapon_stack(weapon_stack):
+func _on_weapons_manager_update_weapon_stack(Weapon_Stack):
 	weapon_stack_label.set_text("")
-	for i in weapon_stack:
-		current_weapon_label.text += "\n" + i
+	for i in Weapon_Stack:
+		weapon_stack_label.text += "\n"+i
 
 
 func _on_weapons_manager_weapon_changed(weapon_name):

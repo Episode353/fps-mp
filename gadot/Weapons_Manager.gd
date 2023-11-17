@@ -75,8 +75,8 @@ func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	var weapon_range = current_weapon.weapon_range
 	raycast_shoot.target_position.z = weapon_range
-	print("Raycast_shoot Range: ", raycast_shoot.target_position.z)
-	print(current_weapon.weapon_name)
+	print("Updated Raycast_shoot Range: ", raycast_shoot.target_position.z)
+	print("Switched to Weapon: ", current_weapon.weapon_name)
 	next_weapon = ""
 	enter()
 
