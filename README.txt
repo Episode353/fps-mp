@@ -13,3 +13,4 @@ To do List:
 	Grenades
 	shooting range
 	multiplayer
+	Wizard Spells
