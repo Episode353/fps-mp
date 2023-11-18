@@ -55,10 +55,9 @@ var direction = Vector3.ZERO
 
 # Bhop Variables
 var bhop_count = 0
-const bhop_reset_time = 1.0  # Time in seconds before resetting bhop_count after being on the floor
 var time_on_floor = 0.0
-const bhop_reset_delay = 1.0  # Time in seconds before resetting bhop_count when on the floor
-const bhop_increase_speed_multiplier = 4 # How much speed is added per bhop
+const bhop_reset_delay = 0.2  # How long the player can be on the floor before resetting bhop counter
+const bhop_increase_speed_multiplier = 4.7 # How much speed is added per bhop
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20.0
@@ -166,13 +165,17 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-  # Handle Jump.
+	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		sliding = false
 
+		# Reset time_on_floor on each jump
+		time_on_floor = 0.0
+
 		# Increase bhop count on each jump
 		bhop_count += bhop_increase_speed_multiplier
+		print(bhop_count)
 
 	# Reset bhop count if on the floor for more than bhop_reset_time
 	if is_on_floor():
@@ -181,14 +184,15 @@ func _physics_process(delta):
 		if time_on_floor > bhop_reset_delay:
 			bhop_count = 0
 			time_on_floor = 0.0
-	elif bhop_count > 0:
-		# Modify the horizontal speed based on bhop_count
-		current_speed = lerp(current_speed, walking_speed + bhop_count, delta * lerp_speed)
+			print(bhop_count)
+
+	# Modify the horizontal speed based on bhop_count
+	current_speed = lerp(current_speed, walking_speed + bhop_count, delta * lerp_speed)
 	
-	direction = lerp(direction,(transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(),delta*lerp_speed)
+	direction = lerp(direction,(transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized(),delta*lerp_speed)
 	
 	if sliding:
-		direction = (transform.basis * Vector3(slide_vector.x,0,slide_vector.y)).normalized()
+		direction = (transform.basis * Vector3(slide_vector.x,0.0,slide_vector.y)).normalized()
 	
 	if direction:
 		velocity.x = direction.x * current_speed
@@ -199,8 +203,8 @@ func _physics_process(delta):
 			velocity.z = direction.z * slide_timer * slide_speed
 			
 	else:
-		velocity.x = move_toward(velocity.x, 0, current_speed)
-		velocity.z = move_toward(velocity.z, 0, current_speed)
+		velocity.x = move_toward(velocity.x, 0.0, current_speed)
+		velocity.z = move_toward(velocity.z, 0.0, current_speed)
 
 
 

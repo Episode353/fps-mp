@@ -30,4 +30,5 @@ class_name Weapon_Resource
 # Area Damage (flamethrower)
 @export var use_area_damage_collision: bool # This can be used for flamethrowers, or distance based spells
 @export var area_damage_radius: int # Controls Damage Radius of area damage collision weapons 
-
+@export var skip_animation_on_fire: bool # When True Does not wait for shoot animation to finish before firing again
+@export var fire_rate: float

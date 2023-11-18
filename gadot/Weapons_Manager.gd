@@ -11,8 +11,8 @@ var weapon_raise = false
 var weapon_stack = [] # An array of all weapons the player has
 @onready var raycast_shoot = $"../raycast_shoot"
 var weapon_indicator = 0
-
 var next_weapon: String
+@onready var ac_timer = $"../area_collision/Timer"
 
 var weapon_list = {}
 @export var _weapon_resources: Array[Weapon_Resource]
@@ -36,11 +36,11 @@ func _input(event):
 
 	if event.is_action_pressed("shoot") && weapon_raise == false:
 		shoot()
-
+		
+	
+		
 	if event.is_action_pressed("reload"):
 		reload()
-
-		
 	
 
 
@@ -75,8 +75,8 @@ func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	var weapon_range = current_weapon.weapon_range
 	raycast_shoot.target_position.z = weapon_range
-	print("Updated Raycast_shoot Range: ", raycast_shoot.target_position.z)
 	print("Switched to Weapon: ", current_weapon.weapon_name)
+	ac_timer.wait_time = current_weapon.fire_rate
 	next_weapon = ""
 	enter()
 
@@ -85,41 +85,53 @@ func change_weapon(weapon_name: String):
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == current_weapon.deactivate_anim:
 		change_weapon(next_weapon)
+		animation_player.play(current_weapon.activate_anim)
 		
-	if anim_name == current_weapon.shoot_anim && current_weapon.auto_fire == true:
+	if anim_name == current_weapon.shoot_anim && current_weapon.auto_fire == true && current_weapon.skip_animation_on_fire == false:
 		if Input.is_action_pressed("shoot"):
 			shoot()
 			
 		
+		
+func raycast_shoot_procc():
+	var hit_position = raycast_shoot.get_collision_point()
+	print("Object hit at position: ", hit_position)
+	var hit_object = raycast_shoot.get_collider()
+	
+	# Check if the hit object is a player
+	if hit_object.is_in_group("players"):
+		# Assuming the player has a "receive_damage" method marked as an RPC
+		hit_object.rpc("receive_damage", current_weapon.damage)
+		print(hit_object)
+		print("Player Hit!")
+	else:
+		print("Hit object is not a player.")
+	
+	
+
+	
+func area_collision_procc():
+	var ac_enim = area_collision.get_overlapping_bodies()
+	for e in ac_enim:
+		if e.is_in_group("players"):
+			print("Detected body:", e)
+			e.rpc("receive_damage", current_weapon.damage)
+			
 func shoot():
 	if current_weapon.current_ammo != 0:
-		if !animation_player.is_playing(): #Enfore the fire rate set by the animation
+		# Wait for animation to finish before firing again
+		# If Animation skip is on, skip
+		if !animation_player.is_playing():
 			animation_player.play(current_weapon.shoot_anim)
-			if current_weapon.disable_ammo == false:
-				current_weapon.current_ammo -= 1
-				emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+		if current_weapon.disable_ammo == false:
+			current_weapon.current_ammo -= 1
+			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+		
+		if raycast_shoot.is_colliding():
+			raycast_shoot_procc()
 			
-			
-			if raycast_shoot.is_colliding():
-				var hit_position = raycast_shoot.get_collision_point()
-				print("Object hit at position: ", hit_position)
-				var hit_object = raycast_shoot.get_collider()
-				
-				# Check if the hit object is a player
-				if hit_object.is_in_group("players"):
-					# Assuming the player has a "receive_damage" method marked as an RPC
-					hit_object.rpc("receive_damage", current_weapon.damage)
-					print("Player Hit!")
-				else:
-					print("Hit object is not a player.")
-
-					
-					
-			if current_weapon.use_area_damage_collision == true:
-				var area_collision_enimies = area_collision.get_overlapping_bodies()
-				for e in area_collision_enimies:
-					print("Area_collision collides with: ", e)
-			
+		if current_weapon.use_area_damage_collision == true:
+			area_collision_procc()
 	else:
 		reload()
 	
@@ -150,3 +162,13 @@ func _physics_process(delta):
 		elif !raycast_wall.is_colliding() && weapon_raise == true:
 			animation_player.queue(current_weapon.wall_lower_anim)
 			weapon_raise = false
+			
+	if current_weapon.use_area_damage_collision == true:
+		if Input.is_action_just_pressed("shoot"):
+			ac_timer.start()
+		if Input.is_action_just_released("shoot"):
+			ac_timer.stop()
+
+
+func _on_timer_timeout():
+	shoot()

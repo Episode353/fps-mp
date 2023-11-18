@@ -205,7 +205,7 @@ tracks/0/path = NodePath("ak47:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.432, 0.488),
+"times": PackedFloat32Array(0.432, 0.499),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [true, false]
@@ -229,7 +229,7 @@ tracks/2/path = NodePath("ak47:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.475),
+"times": PackedFloat32Array(0, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(0.251071, -0.496804, -0.517897), Vector3(0.251071, -0.99334, -0.247158), Vector3(0.251071, -1.73814, -0.517897)]
@@ -808,7 +808,7 @@ text = "Weapon Stack:"
 [node name="WeaponStack" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["players"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_xk8km")
 
@@ -842,14 +842,10 @@ fov = 110.0
 
 [node name="area_collision" type="Area3D" parent="neck/head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
-collision_mask = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="neck/head/Camera3D/area_collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83884, -2.25891)
 shape = SubResource("BoxShape3D_7xjel")
-
-[node name="Timer" type="Timer" parent="neck/head/Camera3D/area_collision"]
-wait_time = 20.0
 
 [node name="raycast_shoot" type="RayCast3D" parent="neck/head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0238895, -0.00101995)
@@ -883,7 +879,6 @@ libraries = {
 
 [node name="Node3D" type="Node3D" parent="neck/head"]
 
-[connection signal="timeout" from="neck/head/Camera3D/area_collision/Timer" to="neck/head/Camera3D/Weapons_Manager" method="_on_timer_timeout"]
 [connection signal="update_ammo" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_ammo"]
 [connection signal="update_weapon_stack" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]
 [connection signal="weapon_changed" from="neck/head/Camera3D/Weapons_Manager" to="CanvasLayer" method="_on_weapons_manager_weapon_changed"]
