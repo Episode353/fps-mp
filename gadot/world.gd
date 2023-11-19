@@ -5,16 +5,21 @@ extends Node
 @onready var hud = $CanvasLayer/HUD
 @onready var health_bar = $CanvasLayer/HUD/HealthBar
 
+@onready var tb_loader = $TBLoader
 
 const Player = preload("res://player.tscn")
 const PORT = 9995
 var enet_peer = ENetMultiplayerPeer.new()
 
 func _unhandled_input(event):
+	
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 	if Input.is_action_just_pressed("fullscreen"):
 		swap_fullscreen_mode()
+	if Input.is_action_just_pressed("respawn"):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		get_tree().reload_current_scene()
 		
 func swap_fullscreen_mode():
 	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_MAXIMIZED:
@@ -54,9 +59,9 @@ func add_player(peer_id):
 	var player = Player.instantiate()
 	player.name = str(peer_id)
 	
-	# Randomize spawn to prevent spawn collision
-	player.position.x = randi_range(-10.0, 10.0)
-	player.position.z = randi_range(-10.0, 10.0)
+	# Set Player spawn
+	player.position.x = 0
+	player.position.z = 0
 	player.position.y = 10.0
 	
 	add_child(player)
@@ -91,5 +96,15 @@ func upnp_setup():
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
 
+func _ready():
+	var all_children = get_all_children(tb_loader)
+	
+	for i in all_children:
+		if i is CollisionObject3D:
+			i.set_collision_layer_value(5,true)
 
-
+func get_all_children(in_node,arr:=[]):
+	arr.push_back(in_node)
+	for child in in_node.get_children():
+		arr = get_all_children(child,arr)
+	return arr

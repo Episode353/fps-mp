@@ -9,7 +9,6 @@ Use With Godot_v4.1.3-stable_win64.exe
 ----------------------------------------------------------------
 
 To do List:
-	Bhopping
 	Grenades
 	shooting range
 	multiplayer

@@ -23,3 +23,6 @@ disable_wall_prox = false
 disable_ammo = false
 use_area_damage_collision = false
 area_damage_radius = 0
+skip_animation_on_fire = false
+fire_rate = 0.0
+bullet_spread = true

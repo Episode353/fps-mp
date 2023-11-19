@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://xcjrjq5cbn7y"]
+[gd_scene load_steps=38 format=3 uid="uid://xcjrjq5cbn7y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_2v3wm"]
 [ext_resource type="Script" path="res://HUD.gd" id="2_1i8kl"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://cea7mprhctago" path="res://sys/weapon_resources/knife.tres" id="6_vxs5u"]
 [ext_resource type="Resource" uid="uid://bqgyx232itglx" path="res://sys/weapon_resources/projectile_thrower_test.tres" id="7_sk8xp"]
 [ext_resource type="PackedScene" uid="uid://xldscu02hsep" path="res://models/knife/Knife.glb" id="8_bk2cc"]
+[ext_resource type="Texture2D" uid="uid://dyb35m38nmtop" path="res://mat/muzzle_flash_default_01.png" id="11_4uth1"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xk8km"]
 
@@ -759,6 +760,13 @@ _data = {
 "shotgun_wall_raise": SubResource("Animation_l8tc0")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_akjhr"]
+transparency = 1
+albedo_texture = ExtResource("11_4uth1")
+
+[sub_resource type="QuadMesh" id="QuadMesh_k64iw"]
+material = SubResource("StandardMaterial3D_akjhr")
+
 [node name="Player" type="CharacterBody3D" groups=["players"]]
 collision_layer = 16
 collision_mask = 17
@@ -880,6 +888,16 @@ visible = false
 libraries = {
 "": SubResource("AnimationLibrary_hucl6")
 }
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.94416)
+visible = false
+amount = 1
+lifetime = 0.01
+mesh = SubResource("QuadMesh_k64iw")
+direction = Vector3(0, 0, 0)
+scale_amount_min = 0.1
+scale_amount_max = 0.2
 
 [node name="Node3D" type="Node3D" parent="neck/head"]
 

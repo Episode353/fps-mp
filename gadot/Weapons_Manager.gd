@@ -14,6 +14,8 @@ var weapon_indicator = 0
 var next_weapon: String
 @onready var ac_timer = $"../area_collision/Timer"
 
+@onready var bullet_decal = preload("res://tscn/bullet_decal.tscn")
+
 var weapon_list = {}
 @export var _weapon_resources: Array[Weapon_Resource]
 @onready var raycast_wall = $"../../../../raycast_wall"
@@ -36,9 +38,7 @@ func _input(event):
 
 	if event.is_action_pressed("shoot") && weapon_raise == false:
 		shoot()
-		
 	
-		
 	if event.is_action_pressed("reload"):
 		reload()
 	
@@ -94,9 +94,27 @@ func _on_animation_player_animation_finished(anim_name):
 		
 		
 func raycast_shoot_procc():
+	
 	var hit_position = raycast_shoot.get_collision_point()
+	
 	print("Object hit at position: ", hit_position)
 	var hit_object = raycast_shoot.get_collider()
+
+	# Place the Bullet Decal
+	var col_nor = raycast_shoot.get_collision_normal()
+	var col_point = raycast_shoot.get_collision_point()
+	var b = bullet_decal.instantiate()
+	raycast_shoot.get_collider().add_child(b)
+	b.global_transform.origin = col_point
+
+	if col_nor == Vector3.DOWN or col_nor == Vector3.UP:
+		# For floors and ceilings, set rotation to face upwards
+		b.rotation_degrees.x = 90
+	else:
+		# For walls, use look_at to orient the decal
+		b.look_at(col_point - col_nor, Vector3(0, 1, 0))
+
+	
 	
 	# Check if the hit object is a player
 	if hit_object.is_in_group("players"):
@@ -168,7 +186,7 @@ func _physics_process(delta):
 			ac_timer.start()
 		if Input.is_action_just_released("shoot"):
 			ac_timer.stop()
-
+			
 
 func _on_timer_timeout():
 	shoot()

@@ -175,7 +175,7 @@ func _physics_process(delta):
 
 		# Increase bhop count on each jump
 		bhop_count += bhop_increase_speed_multiplier
-		print(bhop_count)
+
 
 	# Reset bhop count if on the floor for more than bhop_reset_time
 	if is_on_floor():
@@ -184,7 +184,7 @@ func _physics_process(delta):
 		if time_on_floor > bhop_reset_delay:
 			bhop_count = 0
 			time_on_floor = 0.0
-			print(bhop_count)
+
 
 	# Modify the horizontal speed based on bhop_count
 	current_speed = lerp(current_speed, walking_speed + bhop_count, delta * lerp_speed)
@@ -205,6 +205,7 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, current_speed)
 		velocity.z = move_toward(velocity.z, 0.0, current_speed)
+	
 
 
 
@@ -215,7 +216,6 @@ func _physics_process(delta):
 @rpc("any_peer")
 func receive_damage(dmg):
 	health -= dmg
-	print(health)
 	if health <= 0:
 		health = max_health
 		
@@ -224,7 +224,6 @@ func receive_damage(dmg):
 		position.z = randi_range(-10, 10)
 		position.y = 10
 	health_changed.emit(health)
-	print("Received Damage")
 
 
 
