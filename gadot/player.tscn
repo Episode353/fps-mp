@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://xcjrjq5cbn7y"]
+[gd_scene load_steps=42 format=3 uid="uid://xcjrjq5cbn7y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_2v3wm"]
 [ext_resource type="Script" path="res://HUD.gd" id="2_1i8kl"]
@@ -8,9 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://cuyr02pounaf1" path="res://models/shotgun/shotgun.glb" id="4_hs6e8"]
 [ext_resource type="Resource" uid="uid://bhrts7n8xjy7d" path="res://sys/weapon_resources/shotgun.tres" id="4_u36kv"]
 [ext_resource type="Resource" uid="uid://cea7mprhctago" path="res://sys/weapon_resources/knife.tres" id="6_vxs5u"]
-[ext_resource type="Resource" uid="uid://bqgyx232itglx" path="res://sys/weapon_resources/projectile_thrower_test.tres" id="7_sk8xp"]
+[ext_resource type="Resource" uid="uid://bqgyx232itglx" path="res://sys/weapon_resources/flame_spell.tres" id="7_u3s1w"]
 [ext_resource type="PackedScene" uid="uid://xldscu02hsep" path="res://models/knife/Knife.glb" id="8_bk2cc"]
-[ext_resource type="Texture2D" uid="uid://dyb35m38nmtop" path="res://mat/muzzle_flash_default_01.png" id="11_4uth1"]
+[ext_resource type="Texture2D" uid="uid://c60tj7uhbwduv" path="res://addons/kenney_particle_pack/smoke_04.png" id="11_psj70"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xk8km"]
 
@@ -31,6 +31,15 @@ properties/1/watch = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7xjel"]
 size = Vector3(1.72325, 1.55173, 3.13662)
+
+[sub_resource type="BoxMesh" id="BoxMesh_834po"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_akjhr"]
+transparency = 1
+albedo_texture = ExtResource("11_psj70")
+
+[sub_resource type="QuadMesh" id="QuadMesh_k64iw"]
+material = SubResource("StandardMaterial3D_akjhr")
 
 [sub_resource type="Animation" id="Animation_drglv"]
 length = 0.001
@@ -149,6 +158,90 @@ tracks/9/path = NodePath("knife:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("flame_spell/hand:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("flame_spell/hand/CPUParticles3D:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("flame_spell/hand:rotation")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.0865333, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("flame_spell/hand:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.497338, -0.256598, -0.472583)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("flame_spell/hand/CPUParticles3D:position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.527873, -0.246926, -0.822805)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("flame_spell/hand/CPUParticles3D:rotation")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("flame_spell/hand/CPUParticles3D:emitting")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -738,6 +831,213 @@ tracks/1/keys = {
 "values": [Vector3(-0.151652, 0, 0), Vector3(1.60745, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_uik3w"]
+resource_name = "flame_spell_activate"
+length = 0.2
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flame_spell/hand/CPUParticles3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flame_spell/hand:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("flame_spell/hand:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.02, 0.112, 0.188),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.18421, -0.231284, 0.214755), Vector3(-0.841418, -0.130055, 0.0972106), Vector3(0, -0.0865333, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("flame_spell/hand:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.031, 0.112, 0.188),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.497338, -0.256598, -0.0643508), Vector3(0.497338, -0.256598, -0.311308), Vector3(0.497338, -0.256598, -0.472583)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("flame_spell/hand/CPUParticles3D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_tpq4n"]
+resource_name = "flame_spell_deactivate"
+length = 0.3
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flame_spell/hand:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.281, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flame_spell/hand/CPUParticles3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.007),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.527873, -0.246926, -0.822805)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("flame_spell/hand/CPUParticles3D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.007),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("flame_spell/hand:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.259),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.0865333, 0), Vector3(-0.927883, -0.144659, 0.116069)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("flame_spell/hand:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.497338, -0.256598, -0.0843224)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("flame_spell/hand/CPUParticles3D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.276, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_y1idq"]
+resource_name = "flame_spell_shoot"
+length = 0.2
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flame_spell/hand:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.192),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flame_spell/hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.106, 0.146, 0.192),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.0865333, 0), Vector3(-0.178024, -0.0872665, -0.015708), Vector3(0.123442, -0.0875892, -0.0108471), Vector3(0, -0.0865333, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("flame_spell/hand:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.146, 0.192),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.497338, -0.256598, -0.472583), Vector3(0.497, -0.307, -0.432), Vector3(0.497338, -0.256598, -0.499384), Vector3(0.497338, -0.256598, -0.472583)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("flame_spell/hand/CPUParticles3D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.192),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("flame_spell/hand/CPUParticles3D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.193, 0.199),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hucl6"]
 _data = {
 "RESET": SubResource("Animation_drglv"),
@@ -748,6 +1048,9 @@ _data = {
 "ak47_shoot": SubResource("Animation_em0k2"),
 "ak47_wall_lower": SubResource("Animation_c2i02"),
 "ak47_wall_raise": SubResource("Animation_54huw"),
+"flame_spell_activate": SubResource("Animation_uik3w"),
+"flame_spell_deactivate": SubResource("Animation_tpq4n"),
+"flame_spell_shoot": SubResource("Animation_y1idq"),
 "knife_activate": SubResource("Animation_742mw"),
 "knife_deactivate": SubResource("Animation_jhq07"),
 "knife_shoot": SubResource("Animation_0m4bb"),
@@ -759,13 +1062,6 @@ _data = {
 "shotgun_wall_lower": SubResource("Animation_fx4a2"),
 "shotgun_wall_raise": SubResource("Animation_l8tc0")
 }
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_akjhr"]
-transparency = 1
-albedo_texture = ExtResource("11_4uth1")
-
-[sub_resource type="QuadMesh" id="QuadMesh_k64iw"]
-material = SubResource("StandardMaterial3D_akjhr")
 
 [node name="Player" type="CharacterBody3D" groups=["players"]]
 collision_layer = 16
@@ -845,6 +1141,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 [node name="head" type="Node3D" parent="neck"]
 
 [node name="Camera3D" type="Camera3D" parent="neck/head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00521731, 0.00207496, 0.00310946)
 cull_mask = 1
 fov = 110.0
 
@@ -867,8 +1164,8 @@ collide_with_areas = true
 
 [node name="Weapons_Manager" type="Node3D" parent="neck/head/Camera3D"]
 script = ExtResource("2_dh310")
-_weapon_resources = Array[Resource("res://sys/weapon_resource.gd")]([ExtResource("3_vtnjn"), ExtResource("4_u36kv"), ExtResource("6_vxs5u"), ExtResource("7_sk8xp")])
-start_weapons = Array[String](["shotgun", "ak47", "knife", "projectile_thrower_test"])
+_weapon_resources = Array[Resource("res://sys/weapon_resource.gd")]([ExtResource("3_vtnjn"), ExtResource("4_u36kv"), ExtResource("6_vxs5u"), ExtResource("7_u3s1w")])
+start_weapons = Array[String](["shotgun", "ak47", "knife", "flame_spell"])
 
 [node name="FPS_RIG" type="Node3D" parent="neck/head/Camera3D/Weapons_Manager"]
 
@@ -884,20 +1181,41 @@ visible = false
 transform = Transform3D(0.0987963, -0.015446, -0.000841274, -0.000539298, 0.00199591, -0.0999785, 0.0154595, 0.0987797, 0.00188858, 0.183503, -0.105145, -0.144348)
 visible = false
 
+[node name="flame_spell" type="Node3D" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG"]
+
+[node name="hand" type="MeshInstance3D" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/flame_spell"]
+transform = Transform3D(0.0996258, 0, -0.0518552, 0, 0.1, 0, 0.00864254, 0, 0.597755, 0.497338, -0.256598, -0.472583)
+visible = false
+mesh = SubResource("BoxMesh_834po")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG/flame_spell/hand"]
+transform = Transform3D(29.8909, 0, 0, 0, 30, 0, 0, 0, 5.61566, 0.527873, -0.246926, -0.822805)
+visible = false
+emitting = false
+amount = 4
+lifetime = 0.05
+explosiveness = 0.3
+lifetime_randomness = 0.2
+local_coords = true
+mesh = SubResource("QuadMesh_k64iw")
+direction = Vector3(0, 0, 0)
+spread = 169.44
+angular_velocity_min = 485.93
+angular_velocity_max = 485.93
+linear_accel_min = 34.4
+linear_accel_max = 100.0
+radial_accel_min = 18.35
+radial_accel_max = 18.35
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+anim_speed_max = 14.15
+anim_offset_min = 0.219
+anim_offset_max = 0.7921
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG"]
 libraries = {
 "": SubResource("AnimationLibrary_hucl6")
 }
-
-[node name="CPUParticles3D" type="CPUParticles3D" parent="neck/head/Camera3D/Weapons_Manager/FPS_RIG"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.94416)
-visible = false
-amount = 1
-lifetime = 0.01
-mesh = SubResource("QuadMesh_k64iw")
-direction = Vector3(0, 0, 0)
-scale_amount_min = 0.1
-scale_amount_max = 0.2
 
 [node name="Node3D" type="Node3D" parent="neck/head"]
 

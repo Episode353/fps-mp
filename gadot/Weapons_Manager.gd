@@ -97,7 +97,6 @@ func raycast_shoot_procc():
 	
 	var hit_position = raycast_shoot.get_collision_point()
 	
-	print("Object hit at position: ", hit_position)
 	var hit_object = raycast_shoot.get_collider()
 
 	# Place the Bullet Decal
@@ -132,7 +131,6 @@ func area_collision_procc():
 	var ac_enim = area_collision.get_overlapping_bodies()
 	for e in ac_enim:
 		if e.is_in_group("players"):
-			print("Detected body:", e)
 			e.rpc("receive_damage", current_weapon.damage)
 			
 func shoot():

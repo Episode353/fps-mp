@@ -62,7 +62,7 @@ func add_player(peer_id):
 	# Set Player spawn
 	player.position.x = 0
 	player.position.z = 0
-	player.position.y = 10.0
+	player.position.y = 100.0
 	
 	add_child(player)
 	if player.is_multiplayer_authority():
